@@ -1,4 +1,6 @@
 import React, { useReducer, useState } from 'react';
+import Event from './Event';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import reducer from '../reducers';
@@ -15,6 +17,11 @@ const App = () => {
     setTitle('');
     setBody('');
   };
+
+  const deleteAllEvent = (e) => {
+    e.preventDefault();
+    dispatch({type: 'DELETE_ALL_EVENT'})
+  }
   
   return (
     <div className="container-fluid">
@@ -41,7 +48,7 @@ const App = () => {
         </div>
 
         <button className="btn btn-primary" onClick={addEvent}>イベントを作成する</button>
-        <button className="btn btn-danger">全てのイベントを削除する</button>
+        <button className="btn btn-danger" onClick={deleteAllEvent}>全てのイベントを削除する</button>
       </form>
 
       <h4>イベント一覧</h4>
@@ -54,7 +61,9 @@ const App = () => {
             <th></th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          { state.map((event, index) => ( <Event key={index} event={event} dispatch={dispatch} />))}
+        </tbody>
       </table>
     </div>
   );
